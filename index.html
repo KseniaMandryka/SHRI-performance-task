@@ -46,7 +46,7 @@
             }
 
             setExpanded(!expanded);
-        }, [toggled, setToggled, expanded, setExpanded]);
+        });
 
         return <header className="header">
             <a href="/" className="header__logo" aria-label="Яндекс.Дом"></a>
@@ -214,11 +214,11 @@
                 initedRef.current = true;
                 setActiveTab(new URLSearchParams(location.search).get('tab') || 'all');
             }
-        }, [activeTab, initedRef, setActiveTab]);
+        });
 
         const onSelectInput = React.useCallback(event => {
             setActiveTab(event.target.value);
-        }, [setActiveTab]);
+        });
 
         let sizes = [];
         const onSize = size => {
@@ -233,7 +233,7 @@
             if (newHasRightScroll !== hasRightScroll) {
                 setHasRightScroll(newHasRightScroll);
             }
-        }, [sizes, ref, hasRightScroll, setHasRightScroll]);
+        });
 
         const onArrowCLick = React.useCallback(() => {
             const scroller = ref.current.querySelector('.section__panel:not(.section__panel_hidden)');
@@ -243,7 +243,7 @@
                     behavior: 'smooth'
                 });
             }
-        }, [ref]);
+        });
 
         return <main className="main">
             <section className="section main__general">
