@@ -2,12 +2,11 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Яндекс.Дом</title>
     <script src="vendors/react-with-dom.js" defer></script>
-    <link rel="stylesheet" type="text/css" href="reset.css" media="print" onload="this.media='all'">
-    <link rel="stylesheet" type="text/css" href="styles.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="reset.css">
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
 
@@ -34,18 +33,18 @@
     </div>
 </footer>
 
-<script type="text/babel" defer>
+<script type="text/babel">
     function Header() {
         let [expanded, setExpanded] = React.useState(false);
         let [toggled, setToggled] = React.useState(false);
 
-        const onClick = () => {
+        const onClick = React.useCallback(() => {
             if (!toggled) {
                 setToggled(true);
             }
 
             setExpanded(!expanded);
-        };
+        }, [toggled, setToggled, expanded, setExpanded]);
 
         return <header className="header">
             <a href="/" className="header__logo" aria-label="Яндекс.Дом"></a>
@@ -68,8 +67,9 @@
         </header>;
     }
 
-    function Event(props) {
+    const Event = React.useMemo(function(props) {
         const ref = React.useRef();
+
         React.useEffect(() => {
             const width = ref.current.offsetWidth;
             const height = ref.current.offsetHeight;
@@ -87,7 +87,7 @@
                 }
             </button>
         </li>;
-    }
+    }, [ref, props.onSize])
 
     const TABS = {
         all: {
@@ -121,16 +121,6 @@
                 icon: 'light',
                 iconLabel: 'Освещение',
                 title: 'Philips Zhirui',
-                subtitle: 'Включено'
-            }, {
-                icon: 'light',
-                iconLabel: 'Освещение',
-                title: 'Philips Zhirui',
-                subtitle: 'Включено'
-            }, {
-                icon: 'light2',
-                iconLabel: 'Освещение',
-                title: 'Xiaomi Mi Air Purifier 2S',
                 subtitle: 'Включено'
             }]
         },
@@ -197,7 +187,7 @@
         }
     };
     for (let i = 0; i < 6; ++i) {
-      TABS.all.items = TABS.all.items.concat(TABS.all.items);
+        TABS.all.items = TABS.all.items.concat(TABS.all.items);
     }
     const TABS_KEYS = ['all', 'kitchen', 'hall', 'lights', 'cameras'];
 
@@ -205,22 +195,22 @@
         const ref = React.useRef();
         const initedRef = React.useRef(false);
         const [activeTab, setActiveTab] = React.useState('');
-        const [hasRightScroll, setHasRightScroll] = React.useState(false);
+        const [hasRightScroll, setHasRightScroll] = Reacts.useState(false);
 
         React.useEffect(() => {
             if (!activeTab && !initedRef.current) {
                 initedRef.current = true;
                 setActiveTab(new URLSearchParams(location.search).get('tab') || 'all');
             }
-        });
+        }, [activeTab, initedRef, setActiveTab]);
 
-        const onSelectInput = event => {
+        const onSelectInput = React.useCallback(event => {
             setActiveTab(event.target.value);
-        };
+        }, [setActiveTab]);
 
         let sizes = [];
         const onSize = size => {
-          sizes = sizes.concat(size);
+            sizes = sizes.concat(size);
         };
 
         React.useEffect(() => {
@@ -231,9 +221,9 @@
             if (newHasRightScroll !== hasRightScroll) {
                 setHasRightScroll(newHasRightScroll);
             }
-        });
+        }, [sizes, ref, hasRightScroll, setHasRightScroll]);
 
-        const onArrowCLick = () => {
+        const onArrowCLick = React.useCallback(() => {
             const scroller = ref.current.querySelector('.section__panel:not(.section__panel_hidden)');
             if (scroller) {
                 scroller.scrollTo({
@@ -241,7 +231,7 @@
                     behavior: 'smooth'
                 });
             }
-        };
+        }, [ref]);
 
         return <main className="main">
             <section className="section main__general">
