@@ -2,9 +2,10 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
     <title>Яндекс.Дом</title>
-    <script src="vendors/react-with-dom.js" defer></script>
+    <script src="vendors/react-with-dom.js"></script>
     <link rel="stylesheet" type="text/css" href="reset.css">
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
@@ -33,6 +34,7 @@
     </div>
 </footer>
 
+<script src="vendors/babel.min.js"></script>
 <script type="text/babel">
     function Header() {
         let [expanded, setExpanded] = React.useState(false);
@@ -67,7 +69,7 @@
         </header>;
     }
 
-    const Event = React.useMemo(function(props) {
+    function Event (props) {
         const ref = React.useRef();
 
         React.useEffect(() => {
@@ -87,8 +89,8 @@
                 }
             </button>
         </li>;
-    }, [ref, props.onSize])
-
+    }
+    
     const TABS = {
         all: {
             title: 'Все',
@@ -121,6 +123,16 @@
                 icon: 'light',
                 iconLabel: 'Освещение',
                 title: 'Philips Zhirui',
+                subtitle: 'Включено'
+            }, {
+                icon: 'light',
+                iconLabel: 'Освещение',
+                title: 'Philips Zhirui',
+                subtitle: 'Включено'
+            }, {
+                icon: 'light2',
+                iconLabel: 'Освещение',
+                title: 'Xiaomi Mi Air Purifier 2S',
                 subtitle: 'Включено'
             }]
         },
@@ -386,6 +398,6 @@
             </>
         );
 </script>
-<script src="vendors/babel.min.js" defer></script>
+
 </body>
 </html>
